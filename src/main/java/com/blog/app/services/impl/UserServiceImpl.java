@@ -7,7 +7,6 @@ import com.blog.app.exceptions.CustomDataIntegrityViolationException;
 import com.blog.app.exceptions.ResourceNotFoundException;
 import com.blog.app.repositories.UserRepository;
 import com.blog.app.services.UserService;
-import com.blog.app.utils.UserModelMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,8 +21,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private ModelMapper modelMapper;
-    @Autowired
-    private UserModelMapper userModelMapper;
     @Autowired
     private CustomDataIntegrityViolationException customDataIntegrityViolationException;
 
@@ -56,20 +53,22 @@ public class UserServiceImpl implements UserService {
         userEntity.setPassword(userDto.getPassword());
         userEntity.setAbout(userDto.getAbout());
         UserEntity updatedUserEntity = this.userRepository.save(userEntity);
-        return this.modelMapper.map(updatedUserEntity,UserDto.class);
+        return this.modelMapper.map(updatedUserEntity, UserDto.class);
     }
 
     @Override
     public UserDto getUser(Integer userId) {
         UserEntity userEntity = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
-        return this.modelMapper.map(userEntity,UserDto.class);
+        return this.modelMapper.map(userEntity, UserDto.class);
 
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         List<UserEntity> userEntity = this.userRepository.findAll();
-        return userEntity.stream().map(user->this.modelMapper.map(user,UserDto.class)).collect(Collectors.toList());
+
+        return userEntity.stream().map(user -> this.modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+
     }
 
     @Override
