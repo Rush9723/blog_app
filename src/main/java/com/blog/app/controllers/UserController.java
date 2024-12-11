@@ -1,5 +1,6 @@
 package com.blog.app.controllers;
 
+import com.blog.app.config.AppConstants;
 import com.blog.app.dto.UserDto;
 import com.blog.app.services.UserService;
 import com.blog.app.utils.ApiResponse;
@@ -48,7 +49,7 @@ public class UserController {
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable Integer id) {
         this.userService.deleteUser(id);
-        return new ResponseEntity<ApiResponse>(new ApiResponse("User deleted Successfully",true), HttpStatus.OK);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(AppConstants.USER_DELETED_SUCCESSFULLY_TITLE,true), HttpStatus.OK);
     }
 
 
