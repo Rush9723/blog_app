@@ -3,7 +3,7 @@ package com.blog.app.services.impl;
 
 import com.blog.app.dto.UserDto;
 import com.blog.app.entities.UserEntity;
-import com.blog.app.exceptions.CustomDataIntegrityViolationException;
+import com.blog.app.exceptions.GlobalExceptionHandler;
 import com.blog.app.exceptions.ResourceNotFoundException;
 import com.blog.app.repositories.UserRepository;
 import com.blog.app.services.UserService;
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
-    private CustomDataIntegrityViolationException customDataIntegrityViolationException;
+    private GlobalExceptionHandler globalExceptionHandler;
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -37,18 +37,18 @@ public class UserServiceImpl implements UserService {
         if (userDto.getName() != null) {
             userEntity.setName(userDto.getName());
         } else {
-            customDataIntegrityViolationException.dataIntegrityViolationException(new DataIntegrityViolationException("Name cannot be null"));
+            globalExceptionHandler.dataIntegrityViolationException(new DataIntegrityViolationException("Name cannot be null"));
         }
         if (userDto.getEmail() != null) {
             userEntity.setEmail(userDto.getEmail());
         } else {
-            customDataIntegrityViolationException.dataIntegrityViolationException(new DataIntegrityViolationException("Email cannot be null"));
+            globalExceptionHandler.dataIntegrityViolationException(new DataIntegrityViolationException("Email cannot be null"));
         }
 
         if (userDto.getPhone() != null) {
             userEntity.setPhone(userDto.getPhone());
         } else {
-            customDataIntegrityViolationException.dataIntegrityViolationException(new DataIntegrityViolationException("Phone cannot be null"));
+            globalExceptionHandler.dataIntegrityViolationException(new DataIntegrityViolationException("Phone cannot be null"));
         }
         userEntity.setPassword(userDto.getPassword());
         userEntity.setAbout(userDto.getAbout());
